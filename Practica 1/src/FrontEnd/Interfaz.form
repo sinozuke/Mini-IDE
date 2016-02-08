@@ -116,7 +116,7 @@
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="title" type="java.lang.String" value="Practica 1 - Compi1"/>
     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-      <Color id="Default Cursor"/>
+      <Color id="Cursor Por defecto"/>
     </Property>
     <Property name="resizable" type="boolean" value="false"/>
   </Properties>
@@ -156,7 +156,6 @@
                       <Component id="jLabel3" max="32767" attributes="0"/>
                       <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
                       <Component id="jLabel5" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <Component id="jTabbedPane1" max="32767" attributes="0"/>
               </Group>
