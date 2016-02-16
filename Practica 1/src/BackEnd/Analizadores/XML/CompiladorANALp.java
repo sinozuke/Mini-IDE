@@ -7,22 +7,24 @@ package BackEnd.Analizadores.XML;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 
 /**
  *
- * @author Songoku
+// * @author Songoku
  */
 public class CompiladorANALp {
-    private final static String[] archlex={"C:\\Users\\Songoku\\Documents\\NetBeansProjects\\Mini-IDE\\Practica 1\\src\\BackEnd\\Analizadores\\XML\\Analex-xml.flex"};
+    private final static String[] archlex={"C:\\Users\\Songoku\\Documents\\NetBeansProjects\\Mini-IDE\\Practica 1\\src\\BackEnd\\Analizadores\\XML\\Scanner2.jflex"};
     private static File arch;
+//    public static void main(String[] args){
+//        compilar();
+//    }
 
-/*
-    
-    public static void main(String[] args){
-        compilar();
+    public void imprimir(StringReader texto) throws IOException, Exception{
+            Scanner2 scan = new Scanner2(texto);
+            Sintactico2 sintac = new Sintactico2(scan);
+            sintac.parse();
     }
-
-*/
     
     public static void compilar(){
         jflex.Main.main(archlex);    

@@ -1,0 +1,48 @@
+package BackEnd.Analizadores.XML;
+import java_cup.runtime.*;
+
+parser code
+{:
+    /**Metodo al que se llama automáticamente ante algún error sintactico.*/
+    public void syntax_error(Symbol s){
+        System.out.println("Error en la Línea " + (s.right+1) +" Columna "+s.left+ ". Identificador "
+        +s.value + " no reconocido." );
+    }
+
+    /**Metodo al que se llama en el momento en que ya no es posible una recuperación de
+    errores.*/
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{
+        System.out.println("Error en la Línea " + (s.right+1)+ "Columna "+s.left+". Identificador " +
+        s.value + " no reconocido.");
+    }
+:}
+
+action code
+{:
+:}
+
+terminal String Proyectoi, Proyectof, Nombrei, Nombref, Fechai, Fechaf;
+terminal String Archsi, Archsf, Archivoi, Archivof, rutai, rutaf, Fecha, Cadena, Ruta;
+non terminal INICIA, PROYECTO, ARCHIVO, RECURSIVIDAD,RECURSIVIDAD1;
+precedence left Archivoi;
+start with INICIA;
+
+INICIA::=  	 Proyectoi:e1 {: System.out.println(e1); :} PROYECTO Proyectof:e2 {: System.out.println(e2); :} ;
+
+PROYECTO::=               Nombrei:e1 Cadena:e2 Nombref:e3 Fechai:e4 Fecha:e5 Fechaf:e6 Archsi:e7 {: System.out.println(e1+e2+e3+e4+e5+e6+e7); :} RECURSIVIDAD Archsf:e8 {: System.out.println(e8); :}
+			| Nombrei:e1 Cadena:e2 Nombref:e3 Archsi:e4 {: System.out.println(e1+e2+e3+e4); :} RECURSIVIDAD Archsf:e5 Fechai:e6 Fecha:e7 Fechaf:e8 {: System.out.println(e5+e6+e7+e8); :} 
+			| Fechai:e1 Fecha:e2 Fechaf:e3 Archsi:e4 {: System.out.println(e1+e2+e3+e4); :} RECURSIVIDAD Archsf:e5 Nombrei:e6 Cadena:e7 Nombref:e8 {: System.out.println(e5+e6+e7+e8); :}
+			| Fechai:e1 Fecha:e2 Fechaf:e3 Nombrei:e4 Cadena:e5 Nombref:e6 Archsi:e7 {: System.out.println(e1+e2+e3+e4+e5+e6+e7); :} RECURSIVIDAD Archsf:e8 {: System.out.println(e8); :}
+			| Archsi:e1 RECURSIVIDAD Archsf:e2 RECURSIVIDAD1
+			;		
+RECURSIVIDAD1::= Nombrei:e3 Cadena:e4 Nombref:e5 Fechai:e6 Fecha:e7 Fechaf:e8 {: System.out.println(e3+e4+e5+e6+e7+e8); :}
+                | Fechai:e3 Fecha:e4 Fechaf:e5 Nombrei:e6 Cadena:e7 Nombref:e8 {: System.out.println(e3+e4+e5+e6+e7+e8); :}
+                ;
+
+RECURSIVIDAD::= ARCHIVO RECURSIVIDAD
+			|	ARCHIVO
+			;
+
+ARCHIVO::=        Archivoi:e1 Nombrei:e2 Cadena:e3 Nombref:e4 rutai:e5 Ruta:e6 rutaf:e7 Archivof:e8 {: System.out.println(e1+e2+e3+e4+e5+e6+e7+e8); :}
+		| Archivoi:e1 rutai:e2 Ruta:e3 rutaf:e4 Nombrei:e5 Cadena:e6 Nombref:e7 Archivof:e8 {: System.out.println(e1+e2+e3+e4+e5+e6+e7+e8); :}
+			;

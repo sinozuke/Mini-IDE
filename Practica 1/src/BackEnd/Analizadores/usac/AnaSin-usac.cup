@@ -1,0 +1,45 @@
+package BackEnd.Analizadores.usac;
+import java_cup.runtime.*;
+
+
+
+parser code
+{:
+    /**Metodo al que se llama automáticamente ante algún error sintactico.*/
+    public void syntax_error(Symbol s){
+        System.out.println("Error en la Línea " + (s.right+1) +" Columna "+s.left+ ". Identificador "
+        +s.value + " no reconocido." );
+    }
+
+    /**Metodo al que se llama en el momento en que ya no es posible una recuperación de
+    errores.*/
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{
+        System.out.println("Error en la Línea " + (s.right+1)+ "Columna "+s.left+". Identificador " +
+        s.value + " no reconocido.");
+    }
+:}
+
+action code
+{:
+
+:}
+terminal String COMENT;
+terminal String POTENCIA, POR, DIVIDIO, MAS, MENOS;
+terminal String INCREMENTA, DISMINUYE;
+terminal String MENORQ, MAYORQ, MENOROIQ, MAYOROIQ, IGUALA, DISTINTOA;
+terminal String NOT, O, XOR, AND;
+terminal String ASIG;
+terminal String VERD, FALS;
+terminal String NUM;
+terminal String DECIMAL;
+terminal String CADENA, CARACTER;
+terminal String IDEN;
+terminal String IMPORT, CLASS, HERE;
+terminal String PUBLIC, PRIVATE, PROTECTED;
+terminal String IF, ELSEIF, ELSE;
+terminal String SWITCH, CASE, DEFAULT;
+terminal String WHILE, DO, NEXT, EXIT;
+terminal String SUPER, OVER, NEW, RETURN, MAIN;
+terminal String INT, DOU, STR, CH, B;
+terminal String PINI, EOP, EOSEN, DP, COMA, CINI, EOC;
+non terminal

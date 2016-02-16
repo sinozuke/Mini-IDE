@@ -1,5 +1,7 @@
 package BackEnd.Objects;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Songoku
@@ -8,7 +10,7 @@ public class Proyecto {
     private String nombre;
     private String ruta;
     private String FechaC;
-    private Archivo[] archs;
+    private ArrayList<Carpeta> carps;
 
     public String getNombre() {
         return nombre;
@@ -33,13 +35,9 @@ public class Proyecto {
     public void setFechaC(String FechaC) {
         this.FechaC = FechaC;
     }
-
-    public Archivo[] getArchs() {
-        return archs;
-    }
-
-    public void setArchs(Archivo[] archs) {
-        this.archs = archs;
-    }
     
+    public void AC(Carpeta carp){
+        carps.add(carp);
+    }
+
 }
