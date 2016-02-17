@@ -5,6 +5,7 @@
  */
 package BackEnd.Analizadores.XML;
 
+import BackEnd.Objects.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
@@ -24,6 +25,19 @@ public class CompiladorANALp {
             Scanner2 scan = new Scanner2(texto);
             Sintactico2 sintac = new Sintactico2(scan);
             sintac.parse();
+            
+    }
+    
+    public void CrearNodos(){
+    
+    
+    }
+    
+    public void GuardarPro(){
+        Proyecto proyecto= new Proyecto();
+        
+    
+    
     }
     
     public static void compilar(){
@@ -31,15 +45,4 @@ public class CompiladorANALp {
         arch = new File("AnalizadorLexico_exp.java");
     }
 
-    //Posiblemente implentacion de generacion de nuevo analizador lexico
-    
-/*    
-    public void mover(){
-        if(arch.exists()){
-            
-        } else {
-            
-        }    
-    }    
-*/
 }

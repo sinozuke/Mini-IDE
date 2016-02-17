@@ -11,6 +11,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
@@ -21,17 +23,19 @@ import javax.swing.tree.TreeSelectionModel;
  *
  * @author Songoku
  */
-public class Modelo extends JPanel{
+public class Modelo extends JPanel implements TreeSelectionListener {
    
     protected DefaultMutableTreeNode Raiz_Proyectos;
     protected DefaultTreeModel Modelos_de_proyectos;
     protected JTree tree;
-    private Toolkit toolkit = Toolkit.getDefaultToolkit();
+    protected Toolkit toolkit = Toolkit.getDefaultToolkit();
+    
 
     public Modelo() {
         Raiz_Proyectos = new DefaultMutableTreeNode("Proyectos Abiertos");
         Modelos_de_proyectos = new DefaultTreeModel(Raiz_Proyectos);
         Modelos_de_proyectos.addTreeModelListener(new MyTreeModelListener());
+        tree.addTreeSelectionListener(this);
         tree=new JTree(Modelos_de_proyectos);
         tree.setEditable(false);
 	tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
@@ -39,6 +43,7 @@ public class Modelo extends JPanel{
         
         JScrollPane scrollpane = new JScrollPane();
         add(scrollpane);
+        tree.addTreeSelectionListener(this);
     }
     
     public void limpiar() {
@@ -88,8 +93,6 @@ public class Modelo extends JPanel{
             parent = Raiz_Proyectos;
         }
 	
-        
-        
 	//It is key to invoke this on the TreeModel, and NOT DefaultMutableTreeNode
         Modelos_de_proyectos.insertNodeInto(childNode, parent, 
                                  parent.getChildCount());
@@ -100,10 +103,27 @@ public class Modelo extends JPanel{
         }
         return childNode;
     }
-    
 
+    @Override
+    public void valueChanged(TreeSelectionEvent e) {
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode)
+                           tree.getLastSelectedPathComponent();
+
+        if (node == null) return;
+
+        Object nodeInfo = node.getUserObject();
+        if (node.isLeaf()) {
+            Archivo arch = (Archivo)nodeInfo;
+            String codigo = arch.getCodigo();
+            //Metodo para Vizualizar "Codigo" del Archivo
+        } else {
+            //no se deveria hacer nada por ser carpeta 
+        }
+    }
+    
     class MyTreeModelListener implements TreeModelListener {
     
+        @Override
         public void treeNodesChanged(TreeModelEvent e) {
             DefaultMutableTreeNode node;
             node = (DefaultMutableTreeNode)(e.getTreePath().getLastPathComponent());
@@ -122,12 +142,15 @@ public class Modelo extends JPanel{
             System.out.println("New value: " + node.getUserObject());
         }
         
+        @Override
         public void treeNodesInserted(TreeModelEvent e) {
         }
         
+        @Override
         public void treeNodesRemoved(TreeModelEvent e) {
         }
         
+        @Override
         public void treeStructureChanged(TreeModelEvent e) {
         }
     }

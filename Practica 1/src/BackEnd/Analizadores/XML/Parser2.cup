@@ -1,4 +1,5 @@
 package BackEnd.Analizadores.XML;
+import BackEnd.Objects.Dirrecciones;
 import java_cup.runtime.*;
 
 parser code
@@ -12,13 +13,14 @@ parser code
     /**Metodo al que se llama en el momento en que ya no es posible una recuperación de
     errores.*/
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{
-        System.out.println("Error en la Línea " + (s.right+1)+ "Columna "+s.left+". Identificador " +
+        System.out.println("Error en la Línea " + (s.right+1)+ " Columna "+s.left+". Identificador " +
         s.value + " no reconocido.");
     }
 :}
 
 action code
 {:
+    Dirrecciones dire = new Dirrecciones();
 :}
 
 terminal String Proyectoi, Proyectof, Nombrei, Nombref, Fechai, Fechaf;
@@ -43,6 +45,6 @@ RECURSIVIDAD::= ARCHIVO RECURSIVIDAD
 			|	ARCHIVO
 			;
 
-ARCHIVO::=        Archivoi:e1 Nombrei:e2 Cadena:e3 Nombref:e4 rutai:e5 Ruta:e6 rutaf:e7 Archivof:e8 {: System.out.println(e1+e2+e3+e4+e5+e6+e7+e8); :}
-		| Archivoi:e1 rutai:e2 Ruta:e3 rutaf:e4 Nombrei:e5 Cadena:e6 Nombref:e7 Archivof:e8 {: System.out.println(e1+e2+e3+e4+e5+e6+e7+e8); :}
-			;
+ARCHIVO::=        Archivoi:e1 Nombrei:e2 Cadena:e3 Nombref:e4 rutai:e5 Ruta:e6 rutaf:e7 Archivof:e8 {: dire.Dirreciones.add(e6);System.out.println(e1+e2+e3+e4+e5+e6+e7+e8); :}
+		| Archivoi:e1 rutai:e2 Ruta:e3 rutaf:e4 Nombrei:e5 Cadena:e6 Nombref:e7 Archivof:e8 {: dire.Dirreciones.add(e3);System.out.println(e1+e2+e3+e4+e5+e6+e7+e8); :}
+		;

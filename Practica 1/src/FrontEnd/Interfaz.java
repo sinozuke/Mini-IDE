@@ -3,12 +3,21 @@ package FrontEnd;
 import javax.swing.JTextArea;
 import javax.swing.event.CaretEvent;
 import BackEnd.Analizadores.XML.CompiladorANALp;
+import BackEnd.Objects.Dirrecciones;
+import BackEnd.Objects.Modelo;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.FileReader;
+import java.util.Iterator;
+import javafx.stage.FileChooser;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -17,6 +26,7 @@ import java.io.FileReader;
 public class Interfaz extends javax.swing.JFrame {
 
     CompiladorANALp anapro= new CompiladorANALp();
+    private Modelo arbol;
     
     public Interfaz() {
         initComponents();
@@ -175,6 +185,11 @@ public class Interfaz extends javax.swing.JFrame {
         jMenu1.add(jMenuItem1);
 
         jMenuItem2.setText("Abrir Proyecto");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem2);
         jMenu1.add(jSeparator1);
 
@@ -325,6 +340,73 @@ public class Interfaz extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        JFileChooser obtener = new JFileChooser("C:\\");
+        FileNameExtensionFilter extensionPractica1 = new FileNameExtensionFilter("ARCHIVOS DE PROYECTO", "practica1"); // se crea un filtro
+        obtener.setFileFilter(extensionPractica1);
+        
+        int returnVal = obtener.showOpenDialog(Interfaz.this);
+        
+        if(returnVal == JFileChooser.APPROVE_OPTION){
+            File archivo = obtener.getSelectedFile();
+            Dirrecciones.pathPractica=archivo.getAbsolutePath();
+            Dirrecciones.NombreP =archivo.getName();
+            if(Dirrecciones.existepro()){
+                try {
+                    analizarproyecto(archivo);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this,"Error, no se ha encontrado el archivo");
+                }
+            }else{
+                JOptionPane.showMessageDialog(this,"no exites carpeta con el mismo nombre del proyecto seleccionado");
+            }
+        }
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void analizarproyecto(File archivo) throws FileNotFoundException, Exception{
+        StringBuilder texto = new StringBuilder();
+              try {
+              BufferedReader input =  new BufferedReader(new FileReader(archivo));
+              try {
+                String line = null;
+                while (( line = input.readLine()) != null){
+                  texto.append(line);
+                  texto.append(System.getProperty("line.separator"));
+                }
+              }catch(Exception ex){
+              ex.printStackTrace();
+              }
+              finally {
+                input.close();
+              }
+            }
+            catch (IOException ex){
+              ex.printStackTrace();
+            }
+              if(texto.length()>0){
+                anapro.imprimir(new StringReader(texto.toString()));
+                Dirrecciones.dividir();
+                crearArbol();
+              }else{
+                  JOptionPane.showMessageDialog(this,"El Archivo del proyecto no contiene informacion");
+              }
+    }
+    private void crearArbol(){
+        arbol = new Modelo();
+        crearnodos(arbol);
+    }
+    
+    private void crearnodos(Modelo arbol){
+        for (String[] A : Dirrecciones.nodos) {
+            String[] B = A.clone();
+            String Padre;
+            for(String C : B){
+            
+            }
+        }
+    }
+    
     private String contenido(String dirreccion){
         StringBuilder texto = new StringBuilder();
               try {
@@ -333,7 +415,7 @@ public class Interfaz extends javax.swing.JFrame {
                 String line = null;
                 while (( line = input.readLine()) != null){
                   texto.append(line);
-                  texto.append(System.getProperty("line.separator"));
+                  texto.append(System.getProperty("perra .l."));
                 }
               }
               finally {
@@ -402,5 +484,9 @@ public class Interfaz extends javax.swing.JFrame {
         } catch(Exception ex) { }
         // Actualizamos el estado
         actualizarEstado(linea, columna);
+    }
+
+    private void JOptionPane() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
